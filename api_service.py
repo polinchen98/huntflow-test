@@ -12,3 +12,13 @@ def set_auth(token):
 
 def post_applicants(applicant):
     return requests.post(f'{api_url}/account/2/applicants', data=json.dumps(applicant), headers=headers)
+
+
+def get_vacancies():
+    r = requests.get(f'{api_url}/account/2/vacancies', headers=headers).json()
+    return r['items']
+
+
+def get_statuses():
+    r = requests.get(f'{api_url}/account/2/vacancy/statuses', headers=headers).json()
+    return r['items']
