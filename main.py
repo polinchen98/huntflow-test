@@ -1,6 +1,6 @@
 import argparse
 from parser import parse, parse_applicants
-from api_service import post_applicants, set_auth, get_vacancies, get_statuses
+from api_service import post_applicants, set_auth, get_vacancies, get_statuses, post_resume
 import pprint
 
 parser = argparse.ArgumentParser()
