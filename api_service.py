@@ -31,5 +31,5 @@ def post_resume(path_to_resume):
                '-H', "X-File-Parse: true",
                '-H', f"Authorization: {headers['Authorization']}",
                '-F', f"file=@{path_to_resume}",
-               f'{api_url}account/{account_id}/upload']
+               f'{api_url}/account/{account_id}/upload']
     return subprocess.call(request)
