@@ -1,4 +1,5 @@
 import argparse
+import json
 from parser import parse, parse_applicants
 from api_service import post_applicants, set_auth, get_vacancies, get_statuses, post_resume
 import pprint
@@ -22,7 +23,8 @@ for applicant in applicants:
 for position in positions:
     resumes = os.listdir(f'{args.folder}/{position}')
     for resume in resumes:
-        post_resume(f'{args.folder}/{position}/{resume}')
+        resume_with_id = post_resume(f'{args.folder}/{position}/{resume}')
+        name = json.loads(resume_with_id)['name']
 
 vacancies = get_vacancies()
 for vacancy in vacancies:

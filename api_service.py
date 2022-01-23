@@ -1,5 +1,6 @@
 import json
-import subprocess
+import os
+from subprocess import Popen, PIPE
 import requests
 
 headers = {'User-Agent': 'huntflow-test-app (incaseoffire@example.com)'}
@@ -28,8 +29,10 @@ def get_statuses():
 def post_resume(path_to_resume):
     request = ['curl', '-X', 'POST',
                '-H', "Content-Type: multipart/form-data",
-               '-H', "X-File-Parse: true",
+               '-H', "X-File-Parse: false",
                '-H', f"Authorization: {headers['Authorization']}",
-               '-F', f"file=@{path_to_resume}",
+               '-F', f"file=@{path_to_resume}", '-k',
                f'{api_url}/account/{account_id}/upload']
-    return subprocess.call(request)
+    p = Popen(request, stdout=PIPE, stderr=PIPE)
+    output, err = p.communicate()
+    return output.decode("utf-8")
