@@ -46,6 +46,7 @@ def parse(path):
 
 def parse_applicants(applicants):
     copy_applicants = copy.deepcopy(applicants)
+    extra = []
 
     for applicant in copy_applicants:
         full_name = applicant['full_name'].strip()
@@ -63,8 +64,16 @@ def parse_applicants(applicants):
         else:
             raise Exception(f'Надо указать имя и фамилию (отчество опционально) у {full_name}')
 
+        extra.append(
+            {
+                "full_name": full_name,
+                "comment": applicant['comment'],
+                "status": applicant['status']
+            }
+        )
+
         del applicant['full_name']
         del applicant['comment']
         del applicant['status']
 
-    return copy_applicants
+    return copy_applicants, extra

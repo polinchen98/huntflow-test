@@ -1,5 +1,4 @@
 import json
-import os
 from subprocess import Popen, PIPE
 import requests
 
@@ -13,16 +12,16 @@ def set_auth(token):
 
 
 def post_applicants(applicant):
-    return requests.post(f'{api_url}/account/{account_id}/applicants', data=json.dumps(applicant), headers=headers)
+    return requests.post(f'{api_url}/account/{account_id}/applicants', data=json.dumps(applicant), headers=headers, verify=False)
 
 
 def get_vacancies():
-    r = requests.get(f'{api_url}/account/{account_id}/vacancies', headers=headers).json()
+    r = requests.get(f'{api_url}/account/{account_id}/vacancies', headers=headers, verify=False).json()
     return r['items']
 
 
 def get_statuses():
-    r = requests.get(f'{api_url}/account/{account_id}/vacancy/statuses', headers=headers).json()
+    r = requests.get(f'{api_url}/account/{account_id}/vacancy/statuses', headers=headers, verify=False).json()
     return r['items']
 
 
@@ -36,3 +35,18 @@ def post_resume(path_to_resume):
     p = Popen(request, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate()
     return output.decode("utf-8")
+
+
+def add_applicant_to_vacancy(vacancy_id, status_id, comment, resume_id, applicant_id):
+    payload = {
+        "vacancy": vacancy_id,
+        "status": status_id,
+        "comment": comment,
+        "files":[
+            {
+                "id": resume_id
+            }
+        ]
+    }
+
+    return requests.post(f'{api_url}/account/{account_id}/applicants/{applicant_id}', data=json.dumps(payload), headers=headers, verify=False)
